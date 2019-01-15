@@ -1,11 +1,11 @@
 ﻿# Storage.Net Library
-This library provides various APIs to handle data that can be stored in non-volatile memory. It is rather generalized, so you may have to read through the code, documentation, or examples to get a better understanding of what it does. This readme only provides a brief summary of some of the main features, and additional features may even be added in the future.
+This library provides various APIs to handle data that can be stored in non-volatile memory. It is rather generalized, so you may have to read through the code or documentation to get a better understanding of what it does. This readme only provides a brief summary of some of the main features, and additional features may even be added in the future.
 
 #### Development 
 This API was primarily developed to be used in some of my personal projects. As I frequently required certain common features (such as a B-Tree) to store data, I decided it would be better to create a dedicated API just for common data storage tasks.
 
 #### License
-This API is licensed under the terms of the MIT license, which is detailed in [License.txt](License.txt).
+This API is licensed under the terms of the MIT license, which is detailed in [LICENSE.txt](LICENSE.txt).
 
 ## Main Features
 
