@@ -105,8 +105,7 @@ namespace Storage
                     return PageStorage.IsCapacityFixed;
             }
         }
-
-        private long? cachedPageCapacity_ = null;
+        
         /// <summary>
         /// The total capacity, measured in the number of pages.
         /// </summary>
@@ -127,15 +126,11 @@ namespace Storage
             {
                 lock(locker)
                 {
-                    if (!cachedPageCapacity_.HasValue)
-                        cachedPageCapacity_ = PageStorage.PageCapacity;
-
-                    return cachedPageCapacity_.Value;
+                    return PageStorage.PageCapacity;
                 }
             }
         }
-
-        private long? cachedAllocatedPageCount_ = null;
+        
         /// <summary>
         /// The total number of pages that are currently allocated.
         /// </summary>
@@ -155,10 +150,7 @@ namespace Storage
             {
                 lock(locker)
                 {
-                    if (!cachedAllocatedPageCount_.HasValue)
-                        cachedAllocatedPageCount_ = PageStorage.AllocatedPageCount;
-
-                    return cachedAllocatedPageCount_.Value;
+                    return PageStorage.AllocatedPageCount;
                 }
             }
         }
@@ -176,6 +168,7 @@ namespace Storage
             {
                 lock(locker)
                 {
+                    //Caching this property is safe since page size cannot change
                     if (!cachedPageSize_.HasValue)
                         cachedPageSize_ = PageStorage.PageSize;
 
@@ -183,16 +176,14 @@ namespace Storage
                 }
             }
         }
-
-        private long? cachedEntryPageIndex_ = null;
-        private bool hasCachedEntryPageIndex_ = false;
+        
         /// <summary>
         /// The index of the application-defined 'entry page,' or null.
         /// </summary>
         /// <remarks>
         /// <para>
-        /// This is equivalent to the base <see cref="PageStorage"/>'s <see cref="IPageStorage.EntryPageIndex"/>.
-        /// Assignment is always write-through regardless of the specified <see cref="Mode"/>.
+        /// This is equivalent to the base <see cref="PageStorage"/>'s <see cref="IPageStorage.EntryPageIndex"/>, it
+        /// will not be cached.
         /// </para>
         /// <para>
         /// This property is intended as a utility for an application. Consider that the application
@@ -231,13 +222,7 @@ namespace Storage
             {
                 lock(locker)
                 {
-                    if (!hasCachedEntryPageIndex_)
-                    {
-                        cachedEntryPageIndex_ = PageStorage.EntryPageIndex;
-                        hasCachedEntryPageIndex_ = true;
-                    }
-
-                    return cachedEntryPageIndex_;
+                    return PageStorage.EntryPageIndex;
                 }
             }
 
@@ -250,9 +235,7 @@ namespace Storage
                     if (value != null && value.Value < 0)
                         throw new ArgumentOutOfRangeException(nameof(value), "Cannot assign a negative " + nameof(EntryPageIndex) + ".");
 
-                    PageStorage.EntryPageIndex = value;//Write-through regardless of 'Mode'
-                    cachedEntryPageIndex_ = value;
-                    hasCachedEntryPageIndex_ = true;
+                    PageStorage.EntryPageIndex = value;
                 }
             }
         }
@@ -473,7 +456,6 @@ namespace Storage
             lock(locker)
             {
                 long ret = PageStorage.TryInflate(additionalPageCount, progressReporter, cancellationToken);
-                cachedPageCapacity_ = PageStorage.PageCapacity;
                 return ret;
             }
         }
@@ -518,7 +500,6 @@ namespace Storage
             lock(locker)
             {
                 long ret = PageStorage.TryDeflate(removePageCount, progressReporter, cancellationToken);
-                cachedPageCapacity_ = PageStorage.PageCapacity;
                 return ret;
             }
         }
@@ -599,7 +580,6 @@ namespace Storage
                     throw new InvalidOperationException("Cannot allocate a page on a read-only " + nameof(CachedPageStorage) + ".");
 
                 bool ret = PageStorage.TryAllocatePage(out index);
-                cachedAllocatedPageCount_ = PageStorage.AllocatedPageCount;
                 return ret;
             }
         }
@@ -642,7 +622,6 @@ namespace Storage
                 EvictPageFromCache(index);
 
                 bool ret = PageStorage.FreePage(index);
-                cachedAllocatedPageCount_ = PageStorage.AllocatedPageCount;
                 return ret;
             }
         }

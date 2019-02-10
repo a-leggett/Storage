@@ -260,8 +260,8 @@
             </summary>
             <remarks>
             <para>
-            This is equivalent to the base <see cref="P:Storage.CachedPageStorage.PageStorage"/>'s <see cref="P:Storage.IPageStorage.EntryPageIndex"/>.
-            Assignment is always write-through regardless of the specified <see cref="P:Storage.CachedPageStorage.Mode"/>.
+            This is equivalent to the base <see cref="P:Storage.CachedPageStorage.PageStorage"/>'s <see cref="P:Storage.IPageStorage.EntryPageIndex"/>, it
+            will not be cached.
             </para>
             <para>
             This property is intended as a utility for an application. Consider that the application
@@ -3069,6 +3069,31 @@
             than <see cref="P:Storage.StreamingPageStorage.PageCapacity"/>, otherwise false.</returns>
             <seealso cref="M:Storage.StreamingPageStorage.IsPageAllocated(System.Int64)"/>
             <seealso cref="P:Storage.StreamingPageStorage.PageCapacity"/>
+        </member>
+        <member name="T:Storage.StreamingPageStorage.InitialPayload">
+            <summary>
+            -Debug Only- Defines the initial payload for newly allocated pages.
+            </summary>
+        </member>
+        <member name="F:Storage.StreamingPageStorage.InitialPayload.Incremental">
+            <summary>
+            The initial payload consists of incrementing byte values.
+            </summary>
+        </member>
+        <member name="F:Storage.StreamingPageStorage.InitialPayload.x00">
+            <summary>
+            The initial payload consists of all zeros.
+            </summary>
+        </member>
+        <member name="F:Storage.StreamingPageStorage.InitialPayload.Unchanged">
+            <summary>
+            The initial payload is whatever was previously stored.
+            </summary>
+        </member>
+        <member name="P:Storage.StreamingPageStorage.InitialPayloadMode">
+            <summary>
+            -Debug Only- Defines the initial payload for newly allocated pages.
+            </summary>
         </member>
         <member name="M:Storage.StreamingPageStorage.TryAllocatePage(System.Int64@)">
             <summary>
