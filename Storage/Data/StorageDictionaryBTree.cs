@@ -6,7 +6,13 @@ namespace Storage.Data
     {
         public StorageDictionary<TKey, TValue> StorageDictionary { get; private set; }
 
-        public long PageIndex { get; private set; }
+        public long PageIndex
+        {
+            get
+            {
+                return StorageDictionary.PageIndex;
+            }
+        }
 
         private const long HeaderCountPosition = 0;
         private const long HeaderRootPageIndexPosition = HeaderCountPosition + sizeof(Int64);
@@ -126,6 +132,7 @@ namespace Storage.Data
 
         public StorageDictionaryBTree(StorageDictionary<TKey, TValue> dictionary) : base(dictionary.CachedPageStorage, dictionary.KeySerializer, dictionary.ValueSerializer, dictionary.MaxMovePairCount)
         {
+            this.StorageDictionary = dictionary ?? throw new ArgumentNullException(nameof(dictionary));
         }
     }
 }

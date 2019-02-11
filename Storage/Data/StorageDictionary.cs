@@ -234,7 +234,7 @@ namespace Storage.Data
 
         private StorageDictionary(IPageStorage pageStorage, ISerializer<TKey> keySerializer, ISerializer<TValue> valueSerializer, long pageIndex, bool isReadOnly, int cachePageCount, long maxMoveCount)
         {
-            this.CachedPageStorage = new CachedPageStorage(pageStorage, CachedPageStorage.CacheWriteMode.WriteBack, cachePageCount, true);
+            this.CachedPageStorage = new CachedPageStorage(pageStorage, isReadOnly ? CachedPageStorage.CacheWriteMode.ReadOnly : CachedPageStorage.CacheWriteMode.WriteBack, cachePageCount, true);
             this.KeySerializer = keySerializer ?? throw new ArgumentNullException(nameof(keySerializer));
             this.ValueSerializer = valueSerializer ?? throw new ArgumentNullException(nameof(valueSerializer));
             this.PageIndex = pageIndex;

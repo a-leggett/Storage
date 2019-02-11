@@ -1035,7 +1035,7 @@ namespace Storage
             this.stream_ = stream ?? throw new ArgumentNullException(nameof(stream));
             if (stream.Length < HeaderSize)
                 throw new ArgumentException("The " + nameof(Stream) + " is too small to contain a valid header. It must have at least " + nameof(HeaderSize) + " bytes.", nameof(stream));
-            if (!stream.CanWrite && !IsReadOnly)
+            if (!stream.CanWrite && !isReadOnly)//TODO: [BugFix: This was !IsReadOnly (the property, not arg, thanks IntelliSense for suggesting a Property before it is useful!)], which was wrong. But why didn't any tests catch it? Make sure future tests handle such typos!
                 throw new ArgumentException("If the " + nameof(Stream) + " is read-only (" + nameof(Stream.CanWrite) + " is false), then the '" + nameof(isReadOnly) + "' argument must be true.", nameof(isReadOnly));
             if (isReadOnly && !isCapacityFixed)
                 throw new ArgumentException("If the '" + nameof(isReadOnly) + "' argument is true, then '" + nameof(isCapacityFixed) + "' must also be true.", nameof(isCapacityFixed));
