@@ -59,7 +59,7 @@ namespace StorageTest.Mocks
             {
                 byte[] initPayload = new byte[additionalAmount];
                 for(int i = 0; i < initPayload.Length; i++)
-                    initPayload[i] = (byte)i;
+                    initPayload[i] = (byte)(i+(value / 2));
 
                 long originalPos = baseStream_.Position;
                 baseStream_.Position = originalLength;
@@ -77,7 +77,15 @@ namespace StorageTest.Mocks
             OnWrite?.Invoke(this, buffer, offset, count);
             baseStream_.Write(buffer, offset, count);
         }
-        
+
+        public event Action<MockStream> OnDispose;
+
+        protected override void Dispose(bool disposing)
+        {
+            OnDispose?.Invoke(this);
+            base.Dispose(disposing);
+        }
+
         public MockStream(Stream baseStream, bool canRead, bool canWrite, bool canSeek)
         {
             this.baseStream_ = baseStream ?? throw new ArgumentNullException(nameof(baseStream));

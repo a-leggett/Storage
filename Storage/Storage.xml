@@ -1201,6 +1201,263 @@
             <exception cref="T:System.ArgumentOutOfRangeException">Thrown if <paramref name="offset"/> is invalid (accounting for
             the size of an <see cref="T:System.Int16"/>).</exception>
         </member>
+        <member name="T:Storage.Data.BinaryReaderEx">
+            <summary>
+            Similar to <see cref="T:System.IO.BinaryReader"/>, but uses a specific endianness.
+            </summary>
+        </member>
+        <member name="P:Storage.Data.BinaryReaderEx.BaseStream">
+            <summary>
+            The base <see cref="T:System.IO.Stream"/> from which this <see cref="T:Storage.Data.BinaryReaderEx"/>
+            reads data.
+            </summary>
+        </member>
+        <member name="P:Storage.Data.BinaryReaderEx.WillLeaveStreamOpen">
+            <summary>
+            Will the <see cref="P:Storage.Data.BinaryReaderEx.BaseStream"/> remain open after this <see cref="T:Storage.Data.BinaryReaderEx"/>
+            is disposed?
+            </summary>
+        </member>
+        <member name="P:Storage.Data.BinaryReaderEx.ReadsLittleEndian">
+            <summary>
+            Is data stored in little-endian format on the <see cref="P:Storage.Data.BinaryReaderEx.BaseStream"/>?
+            </summary>
+        </member>
+        <member name="M:Storage.Data.BinaryReaderEx.#ctor(System.IO.Stream,System.Boolean,System.Boolean)">
+            <summary>
+            Constructs a <see cref="T:Storage.Data.BinaryReaderEx"/> that uses UTF-8 encoding.
+            </summary>
+            <param name="baseStream">The base <see cref="T:System.IO.Stream"/> from which data will be read.</param>
+            <param name="leaveStreamOpen">Should the <paramref name="baseStream"/> remain open after
+            this <see cref="T:Storage.Data.BinaryReaderEx"/> is disposed? If false, then <paramref name="baseStream"/>
+            will be disposed when this <see cref="T:Storage.Data.BinaryReaderEx"/> is disposed.</param>
+            <param name="littleEndian">Is the data stored in little-endian format?</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="baseStream"/> is null.</exception>
+        </member>
+        <member name="M:Storage.Data.BinaryReaderEx.#ctor(System.IO.Stream,System.Text.Encoding,System.Boolean,System.Boolean)">
+            <summary>
+            Constructs a <see cref="T:Storage.Data.BinaryReaderEx"/>.
+            </summary>
+            <param name="baseStream">The base <see cref="T:System.IO.Stream"/> from which data will be read.</param>
+            <param name="encoding">The <see cref="T:System.Text.Encoding"/> to use when reading <see cref="T:System.String"/>s.</param>
+            <param name="leaveStreamOpen">Should the <paramref name="baseStream"/> remain open after
+            this <see cref="T:Storage.Data.BinaryReaderEx"/> is disposed? If false, then <paramref name="baseStream"/>
+            will be disposed when this <see cref="T:Storage.Data.BinaryReaderEx"/> is disposed.</param>
+            <param name="littleEndian">Is the data stored in little-endian format?</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="baseStream"/> or <paramref name="encoding"/> is null.</exception>
+        </member>
+        <member name="M:Storage.Data.BinaryReaderEx.ReadBoolean">
+            <summary>
+            Reads a single byte and determines whether it
+            represents a true value or a false value.
+            </summary>
+            <returns>True if the byte is non-zero, otherwise false.</returns>
+        </member>
+        <member name="M:Storage.Data.BinaryReaderEx.ReadInt16">
+            <summary>
+            Reads an <see cref="T:System.Int16"/> from the <see cref="P:Storage.Data.BinaryReaderEx.BaseStream"/>.
+            </summary>
+            <returns>The <see cref="T:System.Int16"/> value.</returns>
+        </member>
+        <member name="M:Storage.Data.BinaryReaderEx.ReadUInt16">
+            <summary>
+            Reads an <see cref="T:System.UInt16"/> from the <see cref="P:Storage.Data.BinaryReaderEx.BaseStream"/>.
+            </summary>
+            <returns>The <see cref="T:System.UInt16"/> value.</returns>
+        </member>
+        <member name="M:Storage.Data.BinaryReaderEx.ReadInt32">
+            <summary>
+            Reads an <see cref="T:System.Int32"/> from the <see cref="P:Storage.Data.BinaryReaderEx.BaseStream"/>.
+            </summary>
+            <returns>The <see cref="T:System.Int32"/> value.</returns>
+        </member>
+        <member name="M:Storage.Data.BinaryReaderEx.ReadUInt32">
+            <summary>
+            Reads an <see cref="T:System.UInt32"/> from the <see cref="P:Storage.Data.BinaryReaderEx.BaseStream"/>.
+            </summary>
+            <returns>The <see cref="T:System.UInt32"/> value.</returns>
+        </member>
+        <member name="M:Storage.Data.BinaryReaderEx.ReadInt64">
+            <summary>
+            Reads an <see cref="T:System.Int64"/> from the <see cref="P:Storage.Data.BinaryReaderEx.BaseStream"/>.
+            </summary>
+            <returns>The <see cref="T:System.Int64"/> value.</returns>
+        </member>
+        <member name="M:Storage.Data.BinaryReaderEx.ReadUInt64">
+            <summary>
+            Reads an <see cref="T:System.UInt64"/> from the <see cref="P:Storage.Data.BinaryReaderEx.BaseStream"/>.
+            </summary>
+            <returns>The <see cref="T:System.UInt64"/> value.</returns>
+        </member>
+        <member name="M:Storage.Data.BinaryReaderEx.ReadShortString">
+            <summary>
+            Reads a <see cref="T:System.UInt16"/>-prefixed <see cref="T:System.String"/>.
+            </summary>
+            <returns>The <see cref="T:System.String"/> value.</returns>
+            <remarks>
+            This method will call <see cref="M:Storage.Data.BinaryReaderEx.ReadUInt16"/> to determine how
+            many bytes to read for the <see cref="T:System.String"/>, and then will
+            read that many bytes, and decode the <see cref="T:System.String"/> using
+            the <see cref="T:System.Text.Encoding"/> that was specified in the constructor.
+            </remarks>
+        </member>
+        <member name="M:Storage.Data.BinaryReaderEx.ReadSingle">
+            <summary>
+            Reads a <see cref="T:System.Single"/> from the <see cref="P:Storage.Data.BinaryReaderEx.BaseStream"/>.
+            </summary>
+            <returns>The <see cref="T:System.Single"/> value.</returns>
+        </member>
+        <member name="M:Storage.Data.BinaryReaderEx.ReadDouble">
+            <summary>
+            Reads a <see cref="T:System.Double"/> from the <see cref="P:Storage.Data.BinaryReaderEx.BaseStream"/>.
+            </summary>
+            <returns>The <see cref="T:System.Double"/> value.</returns>
+        </member>
+        <member name="M:Storage.Data.BinaryReaderEx.Dispose">
+            <summary>
+            Disposes this <see cref="T:Storage.Data.BinaryReaderEx"/>.
+            </summary>
+            <remarks>
+            The <see cref="P:Storage.Data.BinaryReaderEx.BaseStream"/> will be disposed unless <see cref="P:Storage.Data.BinaryReaderEx.WillLeaveStreamOpen"/> is true.
+            </remarks>
+        </member>
+        <member name="T:Storage.Data.BinaryWriterEx">
+            <summary>
+            Similar to <see cref="T:System.IO.BinaryWriter"/>, but uses a specific endianness.
+            </summary>
+        </member>
+        <member name="P:Storage.Data.BinaryWriterEx.BaseStream">
+            <summary>
+            The base <see cref="T:System.IO.Stream"/> to which this <see cref="T:Storage.Data.BinaryWriterEx"/>
+            writes data.
+            </summary>
+        </member>
+        <member name="P:Storage.Data.BinaryWriterEx.WillLeaveStreamOpen">
+            <summary>
+            Will the <see cref="P:Storage.Data.BinaryWriterEx.BaseStream"/> remain open after this <see cref="T:Storage.Data.BinaryWriterEx"/>
+            is disposed?
+            </summary>
+        </member>
+        <member name="P:Storage.Data.BinaryWriterEx.WritesLittleEndian">
+            <summary>
+            Will data be written to the <see cref="P:Storage.Data.BinaryWriterEx.BaseStream"/> in little-endian format?
+            </summary>
+        </member>
+        <member name="M:Storage.Data.BinaryWriterEx.#ctor(System.IO.Stream,System.Boolean,System.Boolean)">
+            <summary>
+            Constructs a <see cref="T:Storage.Data.BinaryWriterEx"/> that uses UTF-8 encoding.
+            </summary>
+            <param name="baseStream">The base <see cref="T:System.IO.Stream"/> to which data will be written.</param>
+            <param name="leaveStreamOpen">Should the <paramref name="baseStream"/> remain open after
+            this <see cref="T:Storage.Data.BinaryWriterEx"/> is disposed? If false, then <paramref name="baseStream"/>
+            will be disposed when this <see cref="T:Storage.Data.BinaryWriterEx"/> is disposed.</param>
+            <param name="littleEndian">Should data be written in little-endian format? If false, big-endian
+            is used.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="baseStream"/> is null.</exception>
+        </member>
+        <member name="M:Storage.Data.BinaryWriterEx.#ctor(System.IO.Stream,System.Text.Encoding,System.Boolean,System.Boolean)">
+            <summary>
+            Constructs a <see cref="T:Storage.Data.BinaryWriterEx"/>.
+            </summary>
+            <param name="baseStream">The base <see cref="T:System.IO.Stream"/> to which data will be written.</param>
+            <param name="encoding">The <see cref="T:System.Text.Encoding"/> to use when writing <see cref="T:System.String"/>s.</param>
+            <param name="leaveStreamOpen">Should the <paramref name="baseStream"/> remain open after
+            this <see cref="T:Storage.Data.BinaryWriterEx"/> is disposed? If false, then <paramref name="baseStream"/>
+            will be disposed when this <see cref="T:Storage.Data.BinaryWriterEx"/> is disposed.</param>
+            <param name="littleEndian">Should data be written in little-endian format? If false, big-endian
+            is used.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="baseStream"/> or
+            <paramref name="encoding"/> is null.</exception>
+        </member>
+        <member name="M:Storage.Data.BinaryWriterEx.WriteBoolean(System.Boolean)">
+            <summary>
+            Writes a <see cref="T:System.Boolean"/> to the <see cref="P:Storage.Data.BinaryWriterEx.BaseStream"/>.
+            </summary>
+            <param name="value">The value to write.</param>
+            <remarks>
+            If <paramref name="value"/> is false, a zero byte will be written.
+            Otherwise the application should assume that any arbitrary non-zero
+            byte will be written.
+            </remarks>
+        </member>
+        <member name="M:Storage.Data.BinaryWriterEx.WriteInt16(System.Int16)">
+            <summary>
+            Writes a <see cref="T:System.Int16"/> to the <see cref="P:Storage.Data.BinaryWriterEx.BaseStream"/>.
+            </summary>
+            <param name="value">The value to write.</param>
+        </member>
+        <member name="M:Storage.Data.BinaryWriterEx.WriteUInt16(System.UInt16)">
+            <summary>
+            Writes a <see cref="T:System.UInt16"/> to the <see cref="P:Storage.Data.BinaryWriterEx.BaseStream"/>.
+            </summary>
+            <param name="value">The value to write.</param>
+        </member>
+        <member name="M:Storage.Data.BinaryWriterEx.WriteInt32(System.Int32)">
+            <summary>
+            Writes a <see cref="T:System.Int32"/> to the <see cref="P:Storage.Data.BinaryWriterEx.BaseStream"/>.
+            </summary>
+            <param name="value">The value to write.</param>
+        </member>
+        <member name="M:Storage.Data.BinaryWriterEx.WriteUInt32(System.UInt32)">
+            <summary>
+            Writes a <see cref="T:System.UInt32"/> to the <see cref="P:Storage.Data.BinaryWriterEx.BaseStream"/>.
+            </summary>
+            <param name="value">The value to write.</param>
+        </member>
+        <member name="M:Storage.Data.BinaryWriterEx.WriteInt64(System.Int64)">
+            <summary>
+            Writes a <see cref="T:System.Int64"/> to the <see cref="P:Storage.Data.BinaryWriterEx.BaseStream"/>.
+            </summary>
+            <param name="value">The value to write.</param>
+        </member>
+        <member name="M:Storage.Data.BinaryWriterEx.WriteUInt64(System.UInt64)">
+            <summary>
+            Writes a <see cref="T:System.UInt64"/> to the <see cref="P:Storage.Data.BinaryWriterEx.BaseStream"/>.
+            </summary>
+            <param name="value">The value to write.</param>
+        </member>
+        <member name="M:Storage.Data.BinaryWriterEx.WriteShortString(System.String)">
+            <summary>
+            Writes a <see cref="T:System.UInt16"/>-prefixed <see cref="T:System.String"/>.
+            </summary>
+            <param name="value">The value to write.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="value"/> is null.</exception>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="value"/>, when encoded
+            using the constructor-specified <see cref="T:System.Text.Encoding"/>, requires more than
+            <see cref="F:System.UInt16.MaxValue"/> bytes.</exception>
+            <remarks>
+            <para>
+            Note that the <paramref name="value"/> cannot have more than <see cref="F:System.UInt16.MaxValue"/>
+            bytes (when encoded using the constructor-specified <see cref="T:System.Text.Encoding"/>, see
+            <see cref="M:System.Text.Encoding.GetByteCount(System.String)"/>).
+            </para>
+            <para>
+            A <see cref="T:System.UInt16"/> header will be written before the <see cref="T:System.String"/>'s
+            bytes to define how many bytes are used. This may be different from the
+            <see cref="P:System.String.Length"/> of the <paramref name="value"/>.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Storage.Data.BinaryWriterEx.WriteSingle(System.Single)">
+            <summary>
+            Writes a <see cref="T:System.Single"/> to the <see cref="P:Storage.Data.BinaryWriterEx.BaseStream"/>.
+            </summary>
+            <param name="value">The value to write.</param>
+        </member>
+        <member name="M:Storage.Data.BinaryWriterEx.WriteDouble(System.Double)">
+            <summary>
+            Writes a <see cref="T:System.Double"/> to the <see cref="P:Storage.Data.BinaryWriterEx.BaseStream"/>.
+            </summary>
+            <param name="value">The value to write.</param>
+        </member>
+        <member name="M:Storage.Data.BinaryWriterEx.Dispose">
+            <summary>
+            Disposes this <see cref="T:Storage.Data.BinaryWriterEx"/>.
+            </summary>
+            <remarks>
+            The <see cref="P:Storage.Data.BinaryWriterEx.BaseStream"/> will be disposed unless <see cref="P:Storage.Data.BinaryWriterEx.WillLeaveStreamOpen"/> is true.
+            </remarks>
+        </member>
         <member name="T:Storage.Data.CorruptDataException">
             <summary>
             <see cref="T:System.IO.IOException"/> that indicates corrupt data.
@@ -3069,6 +3326,31 @@
             than <see cref="P:Storage.StreamingPageStorage.PageCapacity"/>, otherwise false.</returns>
             <seealso cref="M:Storage.StreamingPageStorage.IsPageAllocated(System.Int64)"/>
             <seealso cref="P:Storage.StreamingPageStorage.PageCapacity"/>
+        </member>
+        <member name="T:Storage.StreamingPageStorage.InitialPayload">
+            <summary>
+            -Debug Only- Defines the initial payload for newly allocated pages.
+            </summary>
+        </member>
+        <member name="F:Storage.StreamingPageStorage.InitialPayload.Incremental">
+            <summary>
+            The initial payload consists of incrementing byte values.
+            </summary>
+        </member>
+        <member name="F:Storage.StreamingPageStorage.InitialPayload.x00">
+            <summary>
+            The initial payload consists of all zeros.
+            </summary>
+        </member>
+        <member name="F:Storage.StreamingPageStorage.InitialPayload.Unchanged">
+            <summary>
+            The initial payload is whatever was previously stored.
+            </summary>
+        </member>
+        <member name="P:Storage.StreamingPageStorage.InitialPayloadMode">
+            <summary>
+            -Debug Only- Defines the initial payload for newly allocated pages.
+            </summary>
         </member>
         <member name="M:Storage.StreamingPageStorage.TryAllocatePage(System.Int64@)">
             <summary>
