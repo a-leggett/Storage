@@ -110,21 +110,24 @@ namespace StorageTest
         [DataRow(1024, 64)]
         public void CreateWorks(long pageSize, long initCapacity)
         {
-            using (MemoryStream stream = new MemoryStream())
+            using (MemoryStream ms = new MemoryStream())
             {
-                using (StreamingPageStorage storage = StreamingPageStorage.Create(stream, pageSize, initCapacity, null, new CancellationToken(false), true, 128))
+                using (MockStream stream = new MockStream(ms, true, true, true))
                 {
-                    Assert.IsFalse(storage.IsDisposed);
-                    Assert.AreEqual(0, storage.AllocatedPageCount);
-                    Assert.AreEqual(initCapacity, storage.PageCapacity);
-                    Assert.IsNull(storage.EntryPageIndex);
-                    Assert.IsFalse(storage.IsCapacityFixed);
-                    Assert.IsFalse(storage.IsReadOnly);
-                    Assert.AreEqual(pageSize, storage.PageSize);
-                    storage.Validate(null, new CancellationToken(false));
+                    using (StreamingPageStorage storage = StreamingPageStorage.Create(stream, pageSize, initCapacity, null, new CancellationToken(false), true, 128))
+                    {
+                        Assert.IsFalse(storage.IsDisposed);
+                        Assert.AreEqual(0, storage.AllocatedPageCount);
+                        Assert.AreEqual(initCapacity, storage.PageCapacity);
+                        Assert.IsNull(storage.EntryPageIndex);
+                        Assert.IsFalse(storage.IsCapacityFixed);
+                        Assert.IsFalse(storage.IsReadOnly);
+                        Assert.AreEqual(pageSize, storage.PageSize);
+                        storage.Validate(null, new CancellationToken(false));
 
-                    for (long i = 0; i < initCapacity; i++)
-                        Assert.IsFalse(storage.IsPageAllocated(i));
+                        for (long i = 0; i < initCapacity; i++)
+                            Assert.IsFalse(storage.IsPageAllocated(i));
+                    }
                 }
             }
         }
